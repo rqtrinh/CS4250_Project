@@ -34,10 +34,13 @@ def retrieveURL(url):
 # Store a page in mongo db in pages collection
 def storePage(url, html, db):
     try:
-        db.pages.insert_one({
-            "url": url,
-            "html": html
-        })
+        #look if there has an existing entry with this url
+        page = db.pages.find_one({'_id': url})
+        #if so, update it, otherwise insert
+        if(page):
+            db.pages.update_one({'_id': url}, {"$set": {"url": url, "text": html }})
+        else:
+            db.pages.insert_one({'_id': url, 'url': url, 'text': str(html)})
     except:
         print("Error inserting document")
 
@@ -129,8 +132,8 @@ start = 'https://www.cpp.edu/sci/biological-sciences/index.shtml'
 # Frontier, add start link and use crawler thread.
 frontier = Frontier()
 frontier.addURL(start)
-# I have set it to 10 because it seems there are only 9
-crawler_thread(frontier, db, 9)
+# I have set it to 10
+crawler_thread(frontier, db, 10)
 
 #Test code
 print(target_url)
