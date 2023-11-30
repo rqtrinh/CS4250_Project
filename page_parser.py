@@ -1,13 +1,9 @@
-import json
-
-import nltk
 from bs4 import BeautifulSoup
 from pymongo import MongoClient
 from nltk.stem import WordNetLemmatizer
 from nltk import word_tokenize
 from sklearn.feature_extraction.text import CountVectorizer
 from nltk.corpus import stopwords
-from nltk.stem import PorterStemmer
 
 backup_target_urls = ['https://www.cpp.edu/faculty/alas',
                           'https://www.cpp.edu/faculty/parensburger/index.shtml',
@@ -57,22 +53,23 @@ def store_text(db, url, text):
 
 def get_page_as_html(url, db):
     text = []
-    page = db.pages.find_one({'_id': url}).get('text')
-    bs = BeautifulSoup(page, "html.parser")
-    ul_html_data = bs.find_all("ul", {"style": "list-style-type: disc;"})
-    for li in ul_html_data:  # handles alas site
-        for span in li:
-            # print(span.text)
-            text.append(span.text)
+    # div class "blurb"
+    # div class:"section-intro"
+    # div class="section-text" : has the header info
+    # div class="section-menu" > div class="col" has text in h2, p, span
 
-    html_data = bs.find_all("div", {'class': 'col'})
-    for span in html_data:
-        # print(span.text)
-        text.append(span.text)
+    page = db.pages.find_one({'_id': url}).get('text') # Get a page from the database
+    bs = BeautifulSoup(page, "html.parser")
+
+    section_intro_data = bs.find_all("div", {"class": "blurb"})
+    for element in section_intro_data:
+        # print("Element from blurb: ", element.text)
+        text.append(element.text)
     return text
 
 def parse_pages(target_urls):
     stop_words = set(stopwords.words('english'))
+    stop_words.add('\n')
     # url = "https://www.cpp.edu/faculty/jaysonsmith/index.shtml"
 
     db = connectDatabase()
@@ -85,5 +82,3 @@ def parse_pages(target_urls):
             text_data.append(text)
         processed_text = preprocess_text(text_data, vectorizer)
         store_text(db, url, processed_text)
-
-#
