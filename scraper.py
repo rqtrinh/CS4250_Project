@@ -1,4 +1,5 @@
 # Starting off with template from HW#3
+import page_parser
 from urllib.request import urlopen
 from urllib.parse import urljoin
 from bs4 import BeautifulSoup
@@ -137,3 +138,4 @@ crawler_thread(frontier, db, 10)
 
 #Test code
 print(target_url)
+page_parser.parse_pages(target_url)
