@@ -50,7 +50,7 @@ def preprocess_text(text_list, vectorizer):
 def store_text(db, url, text):
     try:
         # print(json.dumps(text))
-        db.parsed_pages.insert_one({'_id': url, 'words': text, 'encoded_vector_shape':text.shape, 'encoded_vector_array':text.toarray()})
+        db.parsed_pages.insert_one({'_id': url, 'words': text})
     except Exception as e:
         print("error: ", e)
 
