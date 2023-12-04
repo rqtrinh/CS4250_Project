@@ -138,4 +138,6 @@ crawler_thread(frontier, db, 10)
 
 #Test code
 print(target_url)
+
+# target_url = ['https://www.cpp.edu/faculty/alas', 'https://www.cpp.edu/faculty/parensburger/index.shtml', 'https://www.cpp.edu/faculty/nebuckley/', 'https://www.cpp.edu/faculty/jear/index.shtml', 'https://www.cpp.edu/faculty/junjunliu/', 'https://www.cpp.edu/faculty/ejquestad/index.shtml', 'https://www.cpp.edu/faculty/jaysonsmith/index.shtml', 'https://www.cpp.edu/faculty/jcsnyder/index.shtml', 'https://www.cpp.edu/faculty/adsteele/', 'https://www.cpp.edu/faculty/aavaldes/index.shtml']
 page_parser.parse_pages(target_url)
