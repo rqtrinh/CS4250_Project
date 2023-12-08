@@ -62,9 +62,15 @@ def get_page_as_html(url, db):
     bs = BeautifulSoup(page, "html.parser")
 
     section_intro_data = bs.find_all("div", {"class": "blurb"})
+    side_panel_data = bs.find_all("div", {"class": "accolades"})
     for element in section_intro_data:
         # print("Element from blurb: ", element.text)
         text.append(element.text)
+
+    for elem in side_panel_data:
+        # print ("Element from side panel: ", elem.text)
+        text.append(elem.text)
+
     return text
 
 def parse_pages(target_urls):
@@ -82,3 +88,6 @@ def parse_pages(target_urls):
             text_data.append(text)
         processed_text = preprocess_text(text_data, vectorizer)
         store_text(db, url, processed_text)
+
+
+parse_pages("")
