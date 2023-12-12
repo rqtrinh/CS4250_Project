@@ -46,7 +46,13 @@ def preprocess_text(text_list, vectorizer):
 def store_text(db, url, text):
     try:
         # print(json.dumps(text))
-        db.parsed_pages.insert_one({'_id': url, 'words': text})
+
+        #try to update if entry exists, update otherwise
+        parsed_page = db.parsed_pages.find_one({'_id': url})
+        if(parsed_page):
+            db.parsed_pages.update_one({'_id': url}, {"$set": {'words': text}})
+        else:
+            db.parsed_pages.insert_one({'_id': url, 'words': text})
     except Exception as e:
         print("error: ", e)
 

@@ -148,19 +148,22 @@ def connectDatabase():
         print("Database not connected successfully")       
 
 
-#connect to DB
-db = connectDatabase()
 
-#get the parsed pages from db
-parsed_pages = list(db.parsed_pages.find())
+#function for creating inverted index and storing it in mongo
+def create_index():
+    #connect to DB
+    db = connectDatabase()
 
-#get inverted page index of just terms to page
-inverted_page_index = create_inverted_index(parsed_pages)
-#calc tfidf index
-tfidf_index_dict = compute_tfidf(inverted_index=inverted_page_index, tokenized_docs=parsed_pages)
+    #get the parsed pages from db
+    parsed_pages = list(db.parsed_pages.find())
 
-#store it in mongo
-store_tfidf_index(tfidf_index=tfidf_index_dict, db=db)
+    #get inverted page index of just terms to page
+    inverted_page_index = create_inverted_index(parsed_pages)
+    #calc tfidf index
+    tfidf_index_dict = compute_tfidf(inverted_index=inverted_page_index, tokenized_docs=parsed_pages)
+
+    #store it in mongo
+    store_tfidf_index(tfidf_index=tfidf_index_dict, db=db)
 
 
 

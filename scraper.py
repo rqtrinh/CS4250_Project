@@ -126,18 +126,21 @@ def crawler_thread(frontier, db, num_targets):
                 frontier.addURL(link)
 
 # Main Program
-# Databse connection, start link
-db = connectDataBase()
-start = 'https://www.cpp.edu/sci/biological-sciences/index.shtml'
+# Database connection, start link
 
-# Frontier, add start link and use crawler thread.
-frontier = Frontier()
-frontier.addURL(start)
-# I have set it to 10
-crawler_thread(frontier, db, 10)
+#scrapes for the 10 urls from biology dept
+def scrape():
+    db = connectDataBase()
+    start = 'https://www.cpp.edu/sci/biological-sciences/index.shtml'
 
-#Test code
-print(target_url)
+    # Frontier, add start link and use crawler thread.
+    frontier = Frontier()
+    frontier.addURL(start)
+    # I have set it to 10
+    crawler_thread(frontier, db, 10)
 
-# target_url = ['https://www.cpp.edu/faculty/alas', 'https://www.cpp.edu/faculty/parensburger/index.shtml', 'https://www.cpp.edu/faculty/nebuckley/', 'https://www.cpp.edu/faculty/jear/index.shtml', 'https://www.cpp.edu/faculty/junjunliu/', 'https://www.cpp.edu/faculty/ejquestad/index.shtml', 'https://www.cpp.edu/faculty/jaysonsmith/index.shtml', 'https://www.cpp.edu/faculty/jcsnyder/index.shtml', 'https://www.cpp.edu/faculty/adsteele/', 'https://www.cpp.edu/faculty/aavaldes/index.shtml']
-page_parser.parse_pages(target_url)
+    # target_url = ['https://www.cpp.edu/faculty/alas', 'https://www.cpp.edu/faculty/parensburger/index.shtml', 'https://www.cpp.edu/faculty/nebuckley/', 'https://www.cpp.edu/faculty/jear/index.shtml', 'https://www.cpp.edu/faculty/junjunliu/', 'https://www.cpp.edu/faculty/ejquestad/index.shtml', 'https://www.cpp.edu/faculty/jaysonsmith/index.shtml', 'https://www.cpp.edu/faculty/jcsnyder/index.shtml', 'https://www.cpp.edu/faculty/adsteele/', 'https://www.cpp.edu/faculty/aavaldes/index.shtml']
+    page_parser.parse_pages(target_url)
+
+
+

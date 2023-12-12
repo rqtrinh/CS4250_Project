@@ -25,6 +25,8 @@ Objectives:
 #   ...
 # }
 
+
+
 def rank_documents(query, document_vectors, tfidf_index, parsed_pages):
     
     # Initialization
@@ -53,7 +55,12 @@ def rank_documents(query, document_vectors, tfidf_index, parsed_pages):
     # Cosine Similarity 
     similarity_matrix = cosine_similarity(all_vectors)
     rankings = similarity_matrix[0][1:len(similarity_matrix[0])] # remove 1st element 
-    print(rankings)
+
+    ranked_pages = [ (rankings[i], page['_id'] ) for (i, page) in enumerate(parsed_pages) ]
+    sorted_pages = sorted(ranked_pages, key=lambda x: x[0])
+    sorted_pages.reverse()
+    
+    return sorted_pages
 
 def createDocumentVectors(tfidf_index, parsed_pages):
     
@@ -86,9 +93,12 @@ def connectDatabase():
         print("Database not connected successfully")
 
 # test_query = ["The dogs slept behind the churches."]
-db = connectDatabase()
-tfidf_index = list(db.tfidf_index.find())
-parsed_pages = list(db.parsed_pages.find())
-query = [input("Enter a query: ")]
-document_vectors = createDocumentVectors(tfidf_index, parsed_pages)
-rank_documents(query, document_vectors, tfidf_index, parsed_pages)
+
+#takes in query, ranks docs, calcs cosine similarity, returned docs by score desc
+def rank_and_query(query):
+    db = connectDatabase()
+    tfidf_index = list(db.tfidf_index.find())
+    parsed_pages = list(db.parsed_pages.find())
+    document_vectors = createDocumentVectors(tfidf_index, parsed_pages)
+    sorted_pages = rank_documents(query, document_vectors, tfidf_index, parsed_pages)
+    return sorted_pages
