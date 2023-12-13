@@ -11,7 +11,7 @@ def main_menu():
     while True:
         print("\nSearch Engine Main Menu:")
         print("1. Start Web Scraper")
-        print("2. View Indexed Documents")
+        print("2. Create Index")
         print("3. Search Documents")
         print("4. Exit")
 
@@ -22,8 +22,8 @@ def main_menu():
             print("Starting Web Scraper...")
             start_scraping()
         elif choice == '2':
-            # View Indexed Documents
-            print("Viewing Indexed Documents...")
+            # Create Index
+            print("Create Index")
             create_inverted_index()
         elif choice == '3':
             # Search Documents
@@ -41,7 +41,7 @@ def start_scraping():
     scrape()
 
 def create_inverted_index():
-    print("Creating and displaying inverted index... ")
+    print("Creating inverted index... ")
     create_index()
 
 def search_documents(query):    
@@ -84,8 +84,9 @@ def search_documents(query):
         print("Results\n")
         
         #print pages line by line
-        for url in grouped_urls[page_index]:
-            print(url)
+        if(len(grouped_urls) > 0):
+            for url in grouped_urls[page_index]:
+                print(url)
 
         
         choice = input("Enter Key: ")
