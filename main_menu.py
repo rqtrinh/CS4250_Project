@@ -7,6 +7,12 @@ from scraper import scrape
 from index_creator import create_index
 from ranker import rank_and_query
 
+def clear_screen():
+    if os.name == 'nt':
+        os.system('cls')
+    else: 
+        os.system('clear')
+
 def main_menu():
     while True:
         print("\nSearch Engine Main Menu:")
@@ -46,8 +52,8 @@ def create_inverted_index():
 
 def search_documents(query):    
     
-    # Clear screen for windows 
-    os.system('clear')  
+    # Clear screen 
+    clear_screen()
 
     print(f"Searching for '{query[0]}'... ")
   
@@ -73,7 +79,7 @@ def search_documents(query):
     #err message
     err = ""
     while True: 
-        os.system('clear')
+        clear_screen()
         print(err) if len(err) > 0 else None
 
         print("You are on page", page_index  + 1)
@@ -104,7 +110,7 @@ def search_documents(query):
             else:
                 err = "You're already on the last page"
         elif choice == '3':      
-            os.system('clear')
+            clear_screen()
             break
  
 
