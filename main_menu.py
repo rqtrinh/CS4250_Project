@@ -65,8 +65,8 @@ def search_documents(query):
     minimum_score = .01
     filtered_docs = list(filter(lambda doc : doc[0] >= minimum_score, sorted_ranked_docs))
 
-    #get just the urls in that order
-    retrieved_urls = list(map(lambda doc: doc[1], filtered_docs))
+
+    retrieved_urls = list(map(lambda doc: doc, filtered_docs))
 
     #group urls into groups of five
     grouped_urls = []       
@@ -91,8 +91,10 @@ def search_documents(query):
         
         #print pages line by line
         if(len(grouped_urls) > 0):
-            for url in grouped_urls[page_index]:
-                print(url)
+            for score, url in grouped_urls[page_index]:
+                print("Url:", url)
+                print("Score:", score)
+                print("\n")
 
         
         choice = input("Enter Key: ")
